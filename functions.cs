@@ -14,7 +14,7 @@ namespace functions
 {
     public class Functions
     {
-
+        //freaking long variables for locations in the csv files
         public filesystem FileSystem = new filesystem();
         public string[] brawlerList = new string[] { "SHELLY", "COLT", "BULL", "BROCK", "RICO", "SPIKE", "BARLEY", "JESSIE", "NITA", "DYNAMIKE", "ELPRIMO", "MORTIS", "CROW", "POCO", "BOW", "PIPER", "PAM", "TARA", "DARRYL", "PENNY", "FRANK", "GENE", "TICK", "LEON", "ROSA", "CARL", "BIBI", "8BIT", "SANDY", "BEA", "EMZ", "MRP", "MAX", "EMPTY", "JACKY", "GALE", "NANI", "SPROUT" };
         public int[] brawllistint = new int[] { 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 51, 53, 55, 59, 61, 74, 76, 78, 80, 81, 85, 90, 91, 0, 97, 99, 101, 103 };
@@ -31,7 +31,7 @@ namespace functions
         public string[] MapRanges = new string[] { "36:68", "744:776", "333:392", "135:167", "234:266", "2935:2973" };
 
 
-        public class Modification
+        public class Modification //mod class made when you change a brawler
         {
             public string brawler;
             public string modval;
@@ -46,7 +46,7 @@ namespace functions
             }
         }
 
-        public class ImportedMap
+        public class ImportedMap //map class when you import a map
         {
             public string[] lines;
             public string mode;
@@ -58,7 +58,7 @@ namespace functions
             }
         }
 
-        public void WriteOnLine(int row, int column, string newValue, string filepath)
+        public void WriteOnLine(int row, int column, string newValue, string filepath) //function for writing to csv
         {
             string givenPath;
             if (Program.isipa == true)
@@ -80,7 +80,7 @@ namespace functions
             File.WriteAllLines(givenPath, filetext);
         }
 
-        public string ReadOnLine(int row, int column, string filepath)
+        public string ReadOnLine(int row, int column, string filepath) //function to read on csv
         {
             string givenPath;
             if (Program.isipa == true)
@@ -102,10 +102,10 @@ namespace functions
             return filetextLine[column - 1];
         }
 
-        public void Startmessage()
+        public void Startmessage() //main menu
         {
 
-            //Website
+            //Website for getting latest verison
             System.Net.WebClient wc = new System.Net.WebClient();
             byte[] raw = wc.DownloadData("https://brawlmodderversion.000webhostapp.com/");
 
@@ -114,14 +114,14 @@ namespace functions
             string winversionline = webData.Split("<p>")[2];
             string macversion = macversionline.Split("</p>")[0].Split(":")[1];
             string winversion = winversionline.Split("</p>")[0].Split(":")[1];
-            //Website
+            //Website for getting latest version
             string version = File.ReadAllLines(FileSystem.combineFile(new string[] { "bmversion"}, Directory.GetCurrentDirectory()))[0].Split(":")[1];
             Console.WriteLine("      Welcome to Brawl Modder Windows Beta 2");
             Console.WriteLine("   Type the number of the actions you want to do");
             Console.WriteLine("1 -- Create IPA");
             Console.WriteLine("2 -- Create APK");
             Console.WriteLine("3 -- Edit File");
-            if (version == winversion)
+            if (version == winversion) //checks for update
             {
                 Console.WriteLine("       No updates");
 
@@ -135,7 +135,7 @@ namespace functions
 
         }
 
-        public void MainMessage()
+        public void MainMessage() //main message
         {
             Console.WriteLine("    Type your command below");
             Console.WriteLine(" Type one of the following actions");
@@ -150,7 +150,7 @@ namespace functions
         }
 
 
-        public void BrawlEditMessage()
+        public void BrawlEditMessage() //brawler edit message
         {
             Console.WriteLine("    Type the following command to edit a brawler");
             Console.WriteLine("  Or type Q to exit");
@@ -164,9 +164,9 @@ namespace functions
         }
 
 
-        public bool BrawlEditAction(string input)
+        public bool BrawlEditAction(string input) // actions when you edit brawler
         {
-            if (input == "q")
+            if (input == "q") //quit
             {
                 return true;
              
@@ -174,7 +174,7 @@ namespace functions
             {
                 if (input.Split().Length > 1)
                 {
-                    if (input.Split()[0] == "read")
+                    if (input.Split()[0] == "read") //shows the brawler data
                     {
                         if (brawlerList.Contains(input.Split()[1].ToUpper()))
                         {
@@ -205,7 +205,7 @@ namespace functions
                         }
                     } else
                     {
-                        if (brawlerList.Contains(input.Split()[0].ToUpper()))
+                        if (brawlerList.Contains(input.Split()[0].ToUpper())) // adds modification by making class
                         {
                             mods.Add(new Modification(input.Split()[0].ToUpper(), input.Split()[1], input.Split()[2]));
                             Console.WriteLine("Added modification");
@@ -230,13 +230,13 @@ namespace functions
             
         }
 
-        public bool MainMessageAction(string input)
+        public bool MainMessageAction(string input) //actiond for main message
         {
-            if (input == "1")
+            if (input == "1") //quit
             {
                 return true;
             }
-            else if (input == "2")
+            else if (input == "2") //importing map
             {
                 Console.WriteLine("What is the file path of your map");
                 Console.WriteLine("_________________");
@@ -245,7 +245,7 @@ namespace functions
                 if (File.Exists(path))
                 {
 
-                    if (Path.GetExtension(path) == ".txt")
+                    if (Path.GetExtension(path) == ".txt") //seperates title and apps a imported map class
                     {
                         string[] lines = File.ReadAllLines(path);
                         string mode = lines[0].Split("|")[2];
@@ -273,10 +273,10 @@ namespace functions
 
                 return false;
             }
-            else if (input == "3")
+            else if (input == "3") //saving changes
             {
 
-                foreach (ImportedMap item in maps.ToArray())
+                foreach (ImportedMap item in maps.ToArray()) //each map it parses and adds to csv
                 {
                     int index = 1;
                     for (int i = int.Parse(MapRanges[Array.IndexOf(ModeOptions, item.mode)].Split(":")[0]); i < int.Parse(MapRanges[Array.IndexOf(ModeOptions, item.mode)].Split(":")[1]) + 1; i += 1)
@@ -287,7 +287,7 @@ namespace functions
                     Console.WriteLine("Saved a Map");
                 }
 
-                foreach (Modification item in mods.ToArray())
+                foreach (Modification item in mods.ToArray()) //each mod in brawler mods it parses and adds to csv
                 {
                     if (item.modval == "s")
                     {
@@ -322,7 +322,7 @@ namespace functions
                 }
                 Thread.Sleep(1000);
 
-                Console.WriteLine("Would you like to export? (y/n)");
+                Console.WriteLine("Would you like to export? (y/n)"); //exporting
                 Console.WriteLine("______________________________");
                 string output = Console.ReadLine();
                 if (output == "y")
@@ -333,7 +333,7 @@ namespace functions
                     Console.WriteLine("What file path will you export it to?");
                     Console.WriteLine("_____________________________________");
                     string exportpath = Console.ReadLine();
-                    if (Program.isipa == true)
+                    if (Program.isipa == true) //zips in either ipa or apk
                     {
                         ZipFile.CreateFromDirectory(FileSystem.combineFile(new string[] { "Payload" }, Directory.GetCurrentDirectory()), FileSystem.combineFile(new string[] { $"{filename}.ipa" }, exportpath));
 
@@ -358,7 +358,7 @@ namespace functions
             
         }
 
-        public void download(string link, string name)
+        public void download(string link, string name) //just download function
         {
             using (WebClient Client = new WebClient())
             {
@@ -366,9 +366,9 @@ namespace functions
             }
         }
 
-        public bool StartMessageAction(string input)
+        public bool StartMessageAction(string input) //main menu actions
         {
-            if (input == "1")
+            if (input == "1") //setup for ipa
             {
                 string newpath = FileSystem.combineFile(new string[] {"rebrawl-classic-66.ipa"}, Directory.GetCurrentDirectory());
                 File.Copy(newpath, FileSystem.combineFile(new string[] { "brawlstars.zip" }, Directory.GetCurrentDirectory()));
@@ -377,7 +377,7 @@ namespace functions
                 return true;
             } else
             {
-                if (input == "2")
+                if (input == "2") //setup for apk
                 {
                     string newpath = FileSystem.combineFile(new string[] { "rebrawl-classic-104.apk" }, Directory.GetCurrentDirectory());
                     File.Copy(newpath, FileSystem.combineFile(new string[] { "brawlstars.zip" }, Directory.GetCurrentDirectory()));
@@ -386,7 +386,7 @@ namespace functions
                     return true;
                 } else
                 {
-                    if (input == "3")
+                    if (input == "3") // choosing a file for modding
                     {
                         Console.WriteLine("_____________________");
                         Console.WriteLine("What is the file name");
@@ -432,13 +432,13 @@ namespace functions
                     {
                         if (input == "4") {
 
-                            System.Net.WebClient wc = new System.Net.WebClient();
+                            System.Net.WebClient wc = new System.Net.WebClient(); //downloads the latest version from my server
                             byte[] raw = wc.DownloadData("https://brawlmodderversion.000webhostapp.com/");
 
                             string webData = System.Text.Encoding.UTF8.GetString(raw);
                             string line = webData.Split("<p>")[4];
                             string linkdata = line.Split("</p>")[0].Split("@")[1];
-                            Console.WriteLine("What file path will you export it to?");
+                            Console.WriteLine("What file path will you export it to?"); //exports new version
                             Console.WriteLine("_____________________________________");
                             string exportpath = Console.ReadLine();
                             download("https://brawlmodderversion.000webhostapp.com/BrawlModderWin.zip", "BrawlModderWin.zip");
@@ -453,13 +453,7 @@ namespace functions
                             Thread.Sleep(1000);
 
 
-                            /*File.Copy(Directory.GetCurrentDirectory() + "/rebrawl-classic-104.apk", Directory.GetCurrentDirectory() + "/BrawlModder/Brawl Modder.app/Contents/Resources/rebrawl-classic-104.apk");
-                            Directory.Move(Directory.GetCurrentDirectory() + "/BrawlModder/Brawl Modder.app", "/Users/luke/Documents/Brawl Modder.app");
-                            Directory.Delete(Directory.GetCurrentDirectory() + "/BrawlModder", true);
-                            File.Delete(Directory.GetCurrentDirectory() + "/BrawlModderS.zip");
-                            Console.WriteLine("New version is in your documents folder");
-                            Thread.Sleep(1000);
-                            return false;*/
+                            
                             return false;
 
                         } else
