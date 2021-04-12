@@ -11,21 +11,21 @@ namespace FileSystem
 
         public string combineFile(string[] directs, string orgin). //used alot for filesystems
         {
-            if (isWin == true)
+            if (isWin == true) //checks if it is for windows
             {
-                string newpath = orgin;
-                foreach (string direct in directs)
+                string newpath = orgin; //sets the starting path at the givin orgin
+                foreach (string direct in directs) //for each attaching file
                 {
-                    newpath = newpath + @"\" + direct; //makes path for windows
+                    newpath = newpath + @"\" + direct; //makes path for windows with forward slash
                 }
                 return newpath; //return path
 
-            } else
+            } else //if for mac
             {
-                string newpath = orgin;
-                foreach (string direct in directs)
+                string newpath = orgin; //sets starting path at the given orgin
+                foreach (string direct in directs) //foreach attaching file
                 {
-                    newpath = newpath + "/" + direct; //makes path for mac
+                    newpath = newpath + "/" + direct; //makes path for mac with back slash 
                 }
                 return newpath; //returns path
             }
